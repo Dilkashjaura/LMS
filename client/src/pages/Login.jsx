@@ -1,6 +1,8 @@
-import React, { useState } from "react";
 import Stack from "@mui/material/Stack";
+import React, { useState } from "react";
+import {ToastContainer, toast } from "react-toastify";
 import axios from "axios";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Button,
   InputAdornment,
@@ -9,41 +11,42 @@ import {
   Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-
-import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import MarkEmailUnreadRoundedIcon from "@mui/icons-material/MarkEmailUnreadRounded";
 import LockIcon from "@mui/icons-material/Lock";
-import NumbersRoundedIcon from "@mui/icons-material/NumbersRounded";
 
-const Signup = () => {
 
-  const [username, setUsername] = useState("");
+
+
+
+const Login = () => {
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [secretCode, setSecretCode] = useState("");
+  const notify = () => toast("Login succesful!");
 
-  const handleUsername = (e) => {
-    setUsername(e.target.value)
-  }
-  const handlePassword = (e) => {
-    setPassword(e.target.value)
-  }
   const handleEmail = (e) => {
-    setEmail(e.target.value)
-  }
-  const handleSecretCode = (e) => {
-    setSecretCode(e.target.value)
-  }
+    setEmail(e.target.value);
+  };
 
-  const handleClick= async() => {
-      console.log("data: ",username, password, email, secretCode)
-      await axios.post('http://localhost:8000/auth/register',{
-        username, password, email, secretCode,
-      })
-  }
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+  };
+
+
+  const handleClick = async () => {
+    const res = await axios.post("http://localhost:8000/auth/login", {
+      email,
+      password
+    });
+    console.log(res);
+    notify();
+
+    
+  };
 
   return (
     <div>
+    
       <Stack alignItems={"center"}>
         <Stack
           width={"50%"}
@@ -71,28 +74,9 @@ const Signup = () => {
                 fontWeight={"600"}
                 fontSize={"25px"}
               >
-                Sign Up
+                Log In
               </Typography>
 
-              <TextField
-                sx={{
-                  width: "80%",
-                  marginTop: "5%",
-                  fontFamily: "Poppins",
-                  fontSize: "1px",
-                }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <PersonRoundedIcon opacity={"0.5"}></PersonRoundedIcon>
-                    </InputAdornment>
-                  ),
-                }}
-                size="small"
-                value={username}
-                onChange={handleUsername}
-                placeholder="First name"
-              ></TextField>
               <TextField
                 InputProps={{
                   startAdornment: (
@@ -105,9 +89,9 @@ const Signup = () => {
                 }}
                 sx={{ width: "80%", marginTop: "2%" }}
                 size="small"
-                value={email}
-                onChange={handleEmail}
                 placeholder="Your email"
+                onChange={handleEmail}
+                value={email}
                 type="email"
               ></TextField>
               <TextField
@@ -120,36 +104,37 @@ const Signup = () => {
                 }}
                 sx={{ width: "80%", marginTop: "2%" }}
                 size="small"
-                value={password}
-                onChange={handlePassword}
                 placeholder="Password"
+                onChange={handlePassword}
+                value={password}
                 type="password"
-              ></TextField>
-
-              <TextField
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <NumbersRoundedIcon opacity={"0.5"}></NumbersRoundedIcon>
-                    </InputAdornment>
-                  ),
-                }}
-                sx={{ width: "80%", marginTop: "2%" }}
-                size="small"
-                placeholder="Enter numeric code"
-                value={secretCode}
-                onChange={handleSecretCode}
-                type="number"
               ></TextField>
 
               <Button
                 variant="contained"
                 sx={{ width: "80%", textTransform: "none", marginTop: "2%" }}
                 onClick={handleClick}
-              >
-                Sign Up
-              </Button>
 
+              >
+               
+                Log In
+              </Button>
+              <ToastContainer/>
+
+              <Stack width={"80%"} textAlign={"right"}>
+                <Link style={{ textDecoration: "none" }}>
+                  <Typography
+                    marginTop={"1px"}
+                    fontFamily={"Poppins"}
+                    fontWeight={500}
+                    fontSize={"15px"}
+                    letterSpacing={"0.1px"}
+                    color={"#0062FF"}
+                  >
+                    Forgot password?
+                  </Typography>
+                </Link>
+              </Stack>
               <Stack width={"80%"} flexDirection={"row"} marginTop={"3%"}>
                 <Typography
                   letterSpacing={"0.1px"}
@@ -158,10 +143,10 @@ const Signup = () => {
                   fontFamily={"Poppins"}
                   fontSize={"12px"}
                 >
-                  Already have an account?
+                  Don't have an account?
                 </Typography>
 
-                <Link to="/" style={{ textDecoration: "none" }}>
+                <Link to="/Signup" style={{ textDecoration: "none" }}>
                   <Typography
                     letterSpacing={"0.1px"}
                     fontWeight={"400"}
@@ -170,7 +155,7 @@ const Signup = () => {
                     color={"#0062ff"}
                     marginLeft={"5px"}
                   >
-                    Log In
+                    Sign up
                   </Typography>
                 </Link>
               </Stack>
@@ -182,4 +167,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Login;
