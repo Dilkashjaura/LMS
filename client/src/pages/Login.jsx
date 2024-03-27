@@ -2,6 +2,7 @@ import Stack from "@mui/material/Stack";
 import React, { useState } from "react";
 import {ToastContainer, toast } from "react-toastify";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import {
   Button,
@@ -19,6 +20,8 @@ import LockIcon from "@mui/icons-material/Lock";
 
 
 const Login = () => {
+
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,6 +43,12 @@ const Login = () => {
     });
     console.log(res);
     notify();
+    if (res.data.success === true) {
+      setTimeout(() => {
+        navigate('/HomePage');
+      }, 3500);
+    }
+    
 
     
   };

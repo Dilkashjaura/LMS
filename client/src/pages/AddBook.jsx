@@ -5,21 +5,15 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-
-// import CardContent from "@mui/material/CardContent";
-// import Button from "@mui/material/Button";
+import { useState } from "react"; // Import useState hook
+import axios from "axios"; // Import axios library
 import Typography from "@mui/material/Typography";
 import { Stack, TextField } from "@mui/material";
-import { Form } from "react-router-dom";
+
+
 
 const AddBook = () => {
-  const [newUser, setNewAuthor] = useState({
-    title: "",
-    author: "",
-    category: "",
-    description: "",
-    coverimage: "",
-  });
+
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
     clipPath: "inset(50%)",
@@ -32,42 +26,47 @@ const AddBook = () => {
     width: 1,
   });
 
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  
+  const [newUser, setNewAuthor] = useState({
+    title: "",
+    author: "",
+    category: "",
+    description: "",
+    coverimage: "",
+  });
 
   const handleChange = (e) => {
     setNewAuthor({
       ...newUser,
-      [e.target.title]: e.target.value,
-      [e.target.author]: e.target.value,
-      [e.target.category]: e.target.value,
-      [e.target.description]: e.target.value,
+      [e.target.name]: e.target.value,
     });
   };
 
   const handlePhoto = (e) => {
     setNewAuthor({ ...newUser, coverimage: e.target.files[0] });
-    console.log(newUser.coverimage);
+
   };
 
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('title', newUser.title);
-    formData.append('author', newUser.author);
-    formData.append('category', newUser.category);
-    formData.append('description', newUser.description);
-    formData.append('coverimage', newUser.coverimage);
+    formData.append("title", newUser.title);
+    formData.append("author", newUser.author);
+    formData.append("category", newUser.category);
+    formData.append("description", newUser.description);
+    formData.append("coverimage", newUser.coverimage);
 
-    axios.post('http://localhost:8000/book/addbook',formData)
-    .then(res => {
+    try {
+      const res = await axios.post(
+        "http://localhost:8000/book/addbook",
+        formData
+      );
       console.log(res);
-    })
-    .catch(err => {
-      console.log(err)
-    })
-  }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <>
@@ -108,8 +107,7 @@ const AddBook = () => {
 
               <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <Typography
-                  value={newUser.title}
-                  onChange={handleChange}
+
                   style={{
                     fontFamily: "Poppins",
                     fontWeight: "600",
@@ -125,13 +123,14 @@ const AddBook = () => {
                     width: "100%",
                     marginBottom: "2%",
                     fontFamily: "Poppins",
-                    fontSize: "1px",
+                    fontSize: "14px", // Set the font size appropriately
                   }}
                   placeholder="Enter the book's title"
-                ></TextField>
-                <Typography
-                  value={newUser.author}
+                  name="title"
+                  value={newUser.title}
                   onChange={handleChange}
+                />
+                <Typography
                   style={{
                     fontFamily: "Poppins",
                     fontWeight: "600",
@@ -150,10 +149,12 @@ const AddBook = () => {
                     fontSize: "1px",
                   }}
                   placeholder="Enter the book's author"
+                  name="author"
+                  value={newUser.author}
+                  onChange={handleChange}
                 ></TextField>
                 <Typography
-                  value={newUser.category}
-                  onChange={handleChange}
+
                   style={{
                     fontFamily: "Poppins",
                     fontWeight: "600",
@@ -172,10 +173,12 @@ const AddBook = () => {
                     fontSize: "1px",
                   }}
                   placeholder="Enter the book's category"
+                  name="category"
+                  value={newUser.category}
+                  onChange={handleChange}
                 ></TextField>
                 <Typography
-                  value={newUser.description}
-                  onChange={handleChange}
+                
                   style={{
                     fontFamily: "Poppins",
                     fontWeight: "600",
@@ -194,39 +197,45 @@ const AddBook = () => {
                     fontSize: "1px",
                   }}
                   placeholder="Enter the book's description"
+                  name="description"
+                  value={newUser.description}
+                  onChange={handleChange}
                 ></TextField>
-                <Button
-                  style={{
-                    marginBottom: "2%",
-                    width: "20%",
-                    textTransform: "none",
-                    fontWeight: "600",
-                  }}
-                  component="label"
-                  role={undefined}
-                  variant="contained"
-                  tabIndex={-1}
-                  startIcon={<CloudUploadIcon />}
-                >
-                  Upload Cover Image
-                  <VisuallyHiddenInput
-                    type="file"
-                    accept=".png, .jpg, .jpeg"
-                    name="photo"
-                    onChange={handlePhoto}
-                  />
-                </Button>
-                <Button
-                  type="submit"
-                  style={{
-                    fontWeight: "600",
-                    width: "20%",
-                  }}
-                  variant="contained"
-                  color="success"
-                >
-                  SUBMIT
-                </Button>
+                <Stack>
+                  <Button
+                    style={{
+                      marginBottom: "2%",
+                      width: "20%",
+                      textTransform: "none",
+                      fontWeight: "600",
+                    }}
+                    component="label"
+                    role={undefined}
+                    variant="contained"
+                    tabIndex={-1}
+                    startIcon={<CloudUploadIcon />}
+                  >
+                    Upload Cover Image
+                    <VisuallyHiddenInput
+                      type="file"
+                      accept=".png, .jpg, .jpeg"
+                      name="photo"
+                      onChange={handlePhoto}
+                    />
+                  </Button>
+
+                  <Button
+                    type="submit"
+                    style={{
+                      fontWeight: "600",
+                      width: "20%",
+                    }}
+                    variant="contained"
+                    color="success"
+                  >
+                    SUBMIT
+                  </Button>
+                </Stack>
               </form>
             </Stack>
           </Card>

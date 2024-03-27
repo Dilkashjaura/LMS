@@ -51,7 +51,7 @@ const Signup = () => {
     if (res.data.success === true) {
       setTimeout(() => {
         navigate("/");
-      }, 5500);
+      }, 3500);
     }
     
   };
