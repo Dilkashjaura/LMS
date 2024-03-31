@@ -56,7 +56,7 @@ const register = async (req) => {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const login = async (req,res) => {
+const login = async (req) => {
   try {
     const { email, password } = req.body;
 
@@ -98,10 +98,7 @@ const login = async (req,res) => {
 
     const token = JWT.sign({ _id: user._id }, process.env.JWT_SECRET, {
     expiresIn: "5d",
-    httpOnly: true
     });
-    
-    res.cookie("jwtoken", token)
 
     return {user, token};
 

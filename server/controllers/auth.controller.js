@@ -20,15 +20,12 @@ const register = async (req, res) =>{
 const login = async (req, res) => {
     try{
         const response = await authService.login(req);
-    
         return res.status(200).send ({
             success: true,
             message: `User logged in succesfully`,
             user: response.user,
             token: response.token,
-        }
-
-        );
+        });
     }
     catch (error) {
         errorHandler(res, error);

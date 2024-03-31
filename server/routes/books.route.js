@@ -5,7 +5,7 @@ import { requireSignIn } from '../middleware/auth.middleware.js';
 
 const router = express.Router()
 
-router.post("/addbook",requireSignIn, upload.single('coverimage'),bookController.addbook);
+router.post("/addbook", upload.single('coverimage'),requireSignIn,bookController.addbook);
 router.get("/search/:key",bookController.getbook)
 router.get("/books",bookController.getAllBook)
 router.delete("/delete/:key",requireSignIn,bookController.deletebook)

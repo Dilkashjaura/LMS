@@ -65,8 +65,6 @@ const getAllBook = async(req)=>{
     }
 }
 
-console.log(getAllBook)
-
 
 export const bookService = {
     addbook,

@@ -40,7 +40,6 @@ const Login = () => {
     const res = await axios.post("http://localhost:8000/auth/login", {
       email,
       password
-      
     });
     console.log(res);
     notify();
