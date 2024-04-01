@@ -4,8 +4,6 @@ import Login from "./pages/Login";
 import AddBook from "./pages/AddBook";
 import Dashboard from "./pages/Dashboard";
 
-
-
 function App() {
   return (
     
@@ -18,7 +16,6 @@ function App() {
 
     </Routes>
     </>
-
   );
 }
 export default App;

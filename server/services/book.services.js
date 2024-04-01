@@ -1,8 +1,5 @@
 import { bookModel } from "../models/book_model.js";
 
-
-
-
 const addbook = async (req) => {
     try {
         const newBook = new bookModel({
@@ -29,6 +26,7 @@ const getBook = async(req)=>{
         const books = await bookModel.find(
             {
                 "$or":[
+                    {"_id":{$regex:req.params.key}},
                     {"title":{$regex:req.params.key}},
                     {"author":{$regex:req.params.key}},
                     {"category":{$regex:req.params.key}}                    
@@ -44,17 +42,15 @@ const getBook = async(req)=>{
     }
     
 }
-const deleteBook = async(req)=>{
-    try{
-
-        const book = await bookModel.findOneAndDelete({"_id":req.params.id})
+const deleteBook = async (req) => {
+    try {
+        const book = await bookModel.findOneAndDelete({ "_id": req.params.key });
+        return book;
+    } catch (error) {
+        throw error;
     }
-    catch(error){
-        throw(error)
+};
 
-    }
-    return book
-}
 const getAllBook = async(req)=>{
     try{
         const books = await bookModel.find();

@@ -78,9 +78,6 @@ const login = async (req) => {
 
     const user = await userModel.findOne({ email });
 
-
-    
-
     if (!user) {
       throw Object.assign(new Error(), {
         name: "BAD_REQUEST",

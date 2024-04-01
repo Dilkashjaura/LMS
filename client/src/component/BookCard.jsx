@@ -1,6 +1,7 @@
 import React from 'react'
 import { Card, CardContent, CardMedia, Typography } from '@mui/material'
 import { Stack } from '@mui/material';
+import Button from '@mui/material/Button';
 
 const BookCard = ({book}) => {
   
@@ -21,9 +22,15 @@ const BookCard = ({book}) => {
               <Typography style={{fontSize: '13px'}}>{`DESCRIPTION   :   ${book.description}`}</Typography>
 
             </CardContent>
+            <Button variant="contained"sx={{ fontSize: '5px', fontWeight:'bold', marginTop:'-7px'}}>Delete</Button>
               </Stack>
 
-              
+
+
+      
+
+
+
         </Card>
     </div>
   )
